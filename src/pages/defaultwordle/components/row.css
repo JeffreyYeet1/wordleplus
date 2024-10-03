@@ -1,0 +1,28 @@
+.rowcontainer{
+    display:grid;
+    grid-template-columns: repeat(5, 55px);
+    height: 55px;
+    gap: 9px;
+}
+
+.rowcontainer div{
+    display: flex;
+    outline: 2px solid rgb(58,58,60);
+    height:100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(18,18,19);
+    color:white;
+    font-family: 'Clear Sans', sans-serif;
+    font-size:35px;
+    font-weight:bold;
+}
+
+@font-face {
+    font-family: 'Clear Sans';
+    src: url('../../../fonts/ClearSans-Regular.ttf') format('truetype'); /* Adjust the path if necessary */
+    src: url('../../../fonts/ClearSans-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }

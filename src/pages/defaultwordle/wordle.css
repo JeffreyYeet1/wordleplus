@@ -1,0 +1,19 @@
+.defaultwordlecontainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    width:100%;
+    background-color: rgb(18,18,19);
+    color:white;
+}
+
+div {
+    color:white;
+}
+
+hr{
+    width:100%;
+    margin-bottom:1rem;
+}

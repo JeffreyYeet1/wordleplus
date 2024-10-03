@@ -1,0 +1,73 @@
+@font-face {
+    font-family: 'Clear Sans';
+    src: url('../../../fonts/ClearSans-Regular.ttf') format('truetype'); /* Adjust the path if necessary */
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  body {
+    font-family: 'Clear Sans', sans-serif;
+  }
+  
+
+.keyboardcontainer{
+    width:484px;
+    height:174px;
+    margin-top: 1rem;
+    margin-bottom: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.linecontainer{
+    display: flex;
+    height:33%;
+    width:100%;
+}
+
+.linecontainer1{
+    display: flex;
+    height:33%;
+    width:90%;
+}
+
+
+.linecontainer div{
+    background-color: rgb(129,131,132);
+    outline:none;
+    border-radius: 5px;
+    font-size:20px;
+    text-align: center;
+    margin: 4px;
+    width: 55px;
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight:bold;
+    font-size: 18px;
+    font-family: 'Clear Sans',sans-serif;
+    color:white;
+    display:flex;
+}
+
+.linecontainer1 div{
+    margin: 4px;
+    background-color: rgb(129,131,132);
+    outline:none;
+    border-radius: 5px;
+    font-size:20px;
+    text-align: center;
+    width: 55px;
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight:bold;
+    font-size: 18px;
+    font-family: 'Clear Sans',sans-serif;
+    color:white;
+    display:flex;
+}
+

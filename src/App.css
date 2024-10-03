@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Clear Sans';
+  src: url('../src/fonts/ClearSans-Regular.ttf') format('truetype'); /* Adjust the path if necessary */
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Clear Sans', sans-serif;
+}

@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: 'Clear Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(18,18,19);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  font-family: 'Clear Sans';
+  src: url('./fonts/ClearSans-Regular.ttf') format('truetype'); /* Adjust the path if necessary */
+  src: url('./fonts/ClearSans-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
