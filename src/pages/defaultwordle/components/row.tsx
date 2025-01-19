@@ -19,7 +19,7 @@ const Row: React.FC<RowProps> = ({word, resultCode}) => {
     return(
         <>
             <div className="rowcontainer">
-                {boxes.map((num) => (<div style ={resultCode === '' && word[num] ? {outline: "2px solid rgb(86,87,88)"} : {...styles[numberArray[num]]}}>{word[num]}</div>))}
+                {boxes.map((num) => (<div style ={{...styles[numberArray[num]]}}>{word[num]}</div>))}
             </div>
         </>
     );
