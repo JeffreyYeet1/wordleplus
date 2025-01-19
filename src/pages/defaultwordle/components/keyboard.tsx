@@ -9,7 +9,7 @@ interface KeyboardProps {
 const Keyboard: React.FC<KeyboardProps> = ({ onKeyClick, resultArray }) => {
     const rowonekeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
     const rowtwokeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-    const rowthreekeys = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫'];
+    const rowthreekeys = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACK'];
     const styles = [
         {backgroundColor: 'rgb(58,58,60)'}, //Greyed out
         {backgroundColor: 'rgb(181,159,59)'}, //Yellow
