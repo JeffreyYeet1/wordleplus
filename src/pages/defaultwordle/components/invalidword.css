@@ -1,0 +1,13 @@
+.invalidcontainer{
+    background-color:   rgb(18,18,19);
+    position: absolute;
+    height:10vh;
+    width:23vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3.5rem;
+    margin-bottom: 42.5vh;
+    border-color: white;
+    border-style: solid;
+}
