@@ -9,26 +9,34 @@ import solutionWords from "../../worddata/solutionwords.json";
 import Invalid from "./components/invalidword";
 
 const DefaultWordle: React.FC = () => {
-    const [solutionWord, setSolutionWord] = useState(solutionWords[Math.floor(Math.random() * solutionWords.length)].toUpperCase());
-    const [isValidWord, setIsValidWord] = useState(false);
-    const [resultArray, setResultArray] = useState<string[]>([]);
-    const [keysPressed, setKeysPressed] = useState<string>('');
-    const [number, setNumber] = useState(0);
-    const [guesses, setGuesses] = useState<string[]>(Array(6).fill('')); 
-    const [gameWon, setGameWon] = useState(false);
-    const [gameEnd, setGameEnd] = useState(false);
-    const [resultCode, setResultCode] = useState<string[]>(Array(6).fill(''));
+    // State variables
+    const [solutionWord, setSolutionWord] = useState(solutionWords[Math.floor(Math.random() * solutionWords.length)].toUpperCase()); // Randomly selects a solution word
+    const [isValidWord, setIsValidWord] = useState(true); // Tracks whether a guessed word is valid
+    const [resultArray, setResultArray] = useState<string[]>([]); // Stores letter results for keyboard feedback
+    const [keysPressed, setKeysPressed] = useState<string>(''); // Stores the current word being typed
+    const [number, setNumber] = useState(0); // Tracks the current row of guesses
+    const [guesses, setGuesses] = useState<string[]>(Array(6).fill('')); // Stores previous guesses
+    const [gameWon, setGameWon] = useState(false); // Tracks if the game is won
+    const [gameEnd, setGameEnd] = useState(false); // Tracks if the game has ended
+    const [resultCode, setResultCode] = useState<string[]>(Array(6).fill('')); // Stores feedback codes for guesses
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // State for side menu
 
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+    // Function to check if a word is valid
     const checkWordValidity = (word: string) => {
         const isValid = validWords.includes(word.toLowerCase());
         setIsValidWord(isValid);
         return isValid;
     }
 
+    // Temporary fix to reset invalid word message after 500ms
     setTimeout(() => {
         setIsValidWord(true);
       }, 500);
 
+    // Function to count occurrences of a letter in a word
     const countUniqueLetters = (word: string, letter: string) : number => {
         let count: number = 0;
         for (const x of word) {
@@ -38,19 +46,24 @@ const DefaultWordle: React.FC = () => {
         return count;
     }
 
+    // Function to check a guess against the solution word
     const checkGuess = (guess: string, word:string): string => {
         let letterResult: string = '';
         let index: number = 0;
         let letterCount: {[key: string]: number} = {};
+        
         if (guess === word)
-            return "true";
+            return "true"; // If guess is correct, return "true"
+        
+        // Count occurrences of each letter in the solution word
         for (const letter of word)
             letterCount[letter] = countUniqueLetters(word, letter);
+        
         for (const letter of guess) {
             if (word.includes(letter)){
                 if (letterCount[letter]!==0){
                     if(letter === word[index]){
-                        letterResult+="2";
+                        letterResult+="2"; // Correct letter in correct position
                         letterCount[letter]--;
                     } else {
                         let remainingCount: number = letterCount[letter];
@@ -60,10 +73,10 @@ const DefaultWordle: React.FC = () => {
                                     remainingCount--;
                             }
                             if (remainingCount!==0){
-                                letterResult+="1";
+                                letterResult+="1"; // Correct letter in wrong position
                                 letterCount[letter]--;
                             } else 
-                                letterResult+="0";
+                                letterResult+="0"; // Incorrect letter
                         } else 
                             letterResult+="0";
                     }
@@ -76,61 +89,70 @@ const DefaultWordle: React.FC = () => {
         return letterResult;
     }
 
+    // Function to handle key presses
     const handleKeyPress = (key: string) => {
-        setKeysPressed((prev) => { // Deals with all key presses
-            if (key === 'Backspace' || key === 'BACK')
-                return prev.slice(0,-1);
-            else if (key.toUpperCase() === 'ENTER' && prev.length === 5 && checkWordValidity(prev)) { // Performs enter only when a full 5 letter word is present and is a valid word
-                setNumber((prevGuess) => { // Add a number to move to the next row
-                    setGuesses(guesses => { // Add the guess to the list of guesses
-                        if (prevGuess < guesses.length) // Makes sure it doesnt append more than 6 guesses
-                            guesses[prevGuess] = prev;
-                        return guesses;
-                    });
-                        if(prevGuess < 6) {// Makes sure it doesn't go over row 6
-                            setResultCode((currGuess) => {
-                                for(let i = 0; i< guesses.length; i++){
-                                    for(let l = 0; l<guesses[i].length; l++){
-                                        setResultArray((prevArray)=>{
-                                            let sub = guesses[i][l] + currGuess[i][l];
-                                            console.log(prevArray);
-                                            if(prevArray.includes(sub))
-                                                return prevArray;
-                                            else 
-                                                return [...prevArray, sub];
-                                        });
-                                    };
-                                };
-                                if(checkGuess(prev, solutionWord) === "true"){
-                                    setGameWon(true);
-                                    currGuess[prevGuess] = "22222";
-                                    return currGuess;
-                                }
-                                else {
-                                    currGuess[prevGuess] = checkGuess(prev, solutionWord);
-                                    return currGuess;
-                                }   
-                            })
-                            if(prevGuess>4)
-                                setGameEnd(true);
-                            return prevGuess + 1;
-                        }
-                        return prevGuess;
-                    }
-                );
-                return ''; // Clears the existing word
-            }
-            else { 
-                if (prev.length < 5 && key.length === 1){ // Checks if theres room for more letters
-                    return prev+key.toUpperCase();
+        setKeysPressed((prev) => {
+          if (key === 'Backspace' || key === 'BACK') {
+            return prev.slice(0, -1); // Handle backspace
+          } else if (key.toUpperCase() === 'ENTER' && prev.length === 5 && checkWordValidity(prev)) {
+            // Handle Enter key
+            setNumber((prevGuess) => {
+              if (prevGuess >= 6) return prevGuess; // Don't go beyond row 6
+      
+              // Update guesses
+              setGuesses((guesses) => {
+                const newGuesses = [...guesses];
+                if (prevGuess < newGuesses.length) {
+                  newGuesses[prevGuess] = prev;
                 }
-                else {
-                    return prev; // Returns current word if max length reached
+                return newGuesses;
+              });
+      
+              // Check the guess and update resultCode
+              const guessResult = checkGuess(prev, solutionWord);
+              setResultCode((currGuess) => {
+                const newResultCode = [...currGuess];
+                if (guessResult === "true") {
+                  setGameWon(true);
+                  newResultCode[prevGuess] = "22222"; // Marks all letters as correct
+                } else {
+                  newResultCode[prevGuess] = guessResult;
                 }
+                return newResultCode;
+              });
+      
+              // Update resultArray for keyboard feedback
+              setResultArray((prevArray) => {
+                const newResultArray = [...prevArray];
+                for (let i = 0; i < prev.length; i++) {
+                  const sub = prev[i] + guessResult[i];
+                  if (!newResultArray.includes(sub)) {
+                    newResultArray.push(sub);
+                  }
+                }
+                return newResultArray;
+              });
+      
+              // End game if this is the last guess
+              if (prevGuess > 4) {
+                setGameEnd(true);
+              }
+      
+              return prevGuess + 1; // Move to the next row
+            });
+      
+            return ''; // Clear the current word
+          } else {
+            // Handle letter keys
+            if (prev.length < 5 && key.length === 1) {
+              return prev + key.toUpperCase();
             }
+            return prev; // Return current word if max length reached
+          }
         });
-    };
+      };
 
+    // Function to reset the game
     const playAgain = (): void => {
         setGameEnd(false);
         setGameWon(false);
@@ -139,12 +161,33 @@ const DefaultWordle: React.FC = () => {
         setResultCode(Array(6).fill(''));
         setKeysPressed('');
         setResultArray([]);
-        setSolutionWord(solutionWords[Math.floor(Math.random() * solutionWords.length)].toUpperCase());
+        setSolutionWord(solutionWords[Math.floor(Math.random() * solutionWords.length)].toUpperCase()); // Selects a new word
     }
+    
     return(
         <>
             <div className="defaultwordlecontainer">
-                <hr></hr>
+                {/* Top Bar */}
+                <div className="top-bar">
+                    <button className="hamburger-button" onClick={toggleMenu}>
+                        ☰
+                    </button>
+                    <div className="defaultwordle-title">Wordle</div>
+                </div>
+
+                {/* Side Menu */}
+                {isMenuOpen && (
+                    <div className="side-menu">
+                        <div className="menu-content">
+                            <p>Menu Item 1</p>
+                            <p>Menu Item 2</p>
+                            <p>Menu Item 3</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Dimmed Background */}
+                {isMenuOpen && <div className="dimmed-background" onClick={toggleMenu} />}
                 <End Win = {gameWon} Lose = {gameEnd} PlayAgain={playAgain} word={solutionWord}/>
                 {(gameEnd || gameWon) ? null : <KeyboardListener onKeyPress={handleKeyPress}/>}
                 <Grid word = {keysPressed} guessNumber={number} guesses = {guesses} resultCode = {resultCode}/>

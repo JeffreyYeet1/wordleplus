@@ -8,6 +8,7 @@
     width:100%;
     flex-direction: column;
     background-color: rgb(18,18,19);
+    overflow: hidden;
 }
 
 .acontainer{
