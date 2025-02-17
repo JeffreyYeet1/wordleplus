@@ -34,3 +34,12 @@ For a mobile app:
 Oct 3, 2024:
 Currently working on simply tranposing everything from HTML/CSS/JS to React/TSX.
 Planning to implement other game modes before worrying about keeping data.
+
+Feb 17, 2025:
+Its been a while you know.. stuff happens but I'm back. It's time to lock in. I just finished all the extra stuff that make it feel more complete than my original version. 
+-Valid word checking
+-Actual word bank
+Actually thats about it. But thats really important so you can't just type in some random stuff to clear out letters like aeiou is not a word but you get all the vowels.
+-Homepage
+-Routing to original game
+Not really interested in styling just yet, functionality is more important. I'd like to work on making the backend so I can host individual users for this original game before I start making the variations like quordle and octordle. 
