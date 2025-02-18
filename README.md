@@ -43,3 +43,18 @@ Actually thats about it. But thats really important so you can't just type in so
 -Homepage
 -Routing to original game
 Not really interested in styling just yet, functionality is more important. I'd like to work on making the backend so I can host individual users for this original game before I start making the variations like quordle and octordle. 
+
+Feb 18th 2025:
+I have added a backend to this app with Express.js and node.js and connected it to MongoDB. I have also dockerized the whole thing. Honestly not too sure what its going to do for me but now I can say I've used docker. I did troll with my db credentials but its ok I changed the password and hid it.
+
+For my db structure, I'm thinking we have:
+
+User: containing username, email, password, each gamemode statistics, friendlist (for multiplayer), account creation time/date.
+
+Leaderboard: containing top statistics from each gamemode fetched from individual users
+
+Games: containing multiplayer match session data, players involved, winner, stats, etc
+
+GameLobby: containing players waiting, game status, word setup, gamemode, and this is all sent to a Games session once the game starts
+
+For now though I'm only concerned with User and Leaderboard as its too early to think about multiplayer
