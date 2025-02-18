@@ -17,5 +17,5 @@ services:
     build: ./backend
     ports:
       - "5001:5001"
-    environment:
-      - MONGO_URI=mongodb+srv://jeffreyye:0zl43zA9XE66kDZE@cluster0.qpdiy.mongodb.net/wordleplus?retryWrites=true&w=majority&appName=Cluster0
+    env_file:
+      - .env 
