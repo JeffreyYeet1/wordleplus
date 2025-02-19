@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/user.model';
+import { AuthenticatedRequest } from '../middleware/auth.middleware';
 
 // Interface for the request body during signup
 interface SignupRequestBody {
@@ -17,15 +18,15 @@ interface LoginRequestBody {
   password: string;
 }
 
-interface AuthenticatedRequest extends Request {
-  user?: { id: string; username: string; email: string }; // Customize as needed
-}
-
 // Signup logic
 export const signup = async (req: Request, res: Response): Promise<void> => {
   console.log('Signup request received:', req.body); // Add this line
   const { username, email, password }: SignupRequestBody = req.body;
-
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if(!JWT_SECRET){
+    console.log("JWT_SECRET not found");
+    return;
+  }
   try {
     // Check if user already exists
     const existingUser: IUser | null = await User.findOne({ email });
@@ -40,7 +41,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     await user.save();
 
     // Generate a JWT token
-    const token: string = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+    const token: string = jwt.sign({ userId: user._id }, JWT_SECRET , { expiresIn: '1h' });
 
     res.status(201).json({ message: 'User created', token });
   } catch (error: any) {
@@ -53,6 +54,11 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   console.log('Login request received:', req.body.email); // Log the request body
   const { email, password }: LoginRequestBody = req.body;
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if(!JWT_SECRET){
+    console.log("JWT_SECRET not found");
+    return;
+  }
 
   try {
     // Find the user by email
@@ -70,7 +76,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Generate a JWT token
-    const token: string = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+    const token: string = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ message: 'Login successful', token });
   } catch (error: any) {
@@ -82,13 +88,26 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 // Profile data logic
 export const getProfile = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  console.log('Profile request received:', req.body); // Log the request body
+  console.log('Profile request received. User:', req.user); // Debug: Log the user object
   if (!req.user) {
-    console.log(res.status(401).json({ message: "Unauthorized" }));
+    console.log('Unauthorized access attempt'); // Debug: Log unauthorized access
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   } 
+  try{
+    const userId = req.user.userId;
+    console.log(userId);
+    const user = await User.findById(userId).select('-passwordHash');
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+    res.json({ message: "User profile", user });
+  } catch(error){
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 
-  res.json({ message: "User profile", user: req.user });
-  
 };
 
 // export const logout = async (req: Request, res: Response): Promise<void> => {

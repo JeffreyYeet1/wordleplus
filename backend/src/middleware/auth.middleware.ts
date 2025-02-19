@@ -2,13 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 interface User {
-  id: String;
-  username: String;
-  email: String;
+  // Make sure this shape matches the id shape when creating a jwt token
+  userId: String;
 }
 // Define a custom Request type that includes `user`
-interface AuthenticatedRequest extends Request {
-  user?: User; // Customize as needed
+export interface AuthenticatedRequest extends Request {
+  user?: User; 
 }
 
 // Authenticates the json web token to protect certain pages. 
@@ -37,6 +36,7 @@ const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextF
     // Verify the jwt token
     jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) {
+        console.log('Token verification failed:', err.message);
         return res.status(403).json({ error: 'Forbidden: Invalid token' });
       }
       // Attach the user to the request object allowing use of information

@@ -19,6 +19,11 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Signup request received:', req.body); // Add this line
     const { username, email, password } = req.body;
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+        console.log("JWT_SECRET not found");
+        return;
+    }
     try {
         // Check if user already exists
         const existingUser = yield user_model_1.default.findOne({ email });
@@ -31,7 +36,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield user.hashPassword(password); // Hash the password
         yield user.save();
         // Generate a JWT token
-        const token = jsonwebtoken_1.default.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
         res.status(201).json({ message: 'User created', token });
     }
     catch (error) {
@@ -44,6 +49,11 @@ exports.signup = signup;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Login request received:', req.body.email); // Log the request body
     const { email, password } = req.body;
+    const JWT_SECRET = process.env.JWT_SECRET;
+    if (!JWT_SECRET) {
+        console.log("JWT_SECRET not found");
+        return;
+    }
     try {
         // Find the user by email
         const user = yield user_model_1.default.findOne({ email });
@@ -58,7 +68,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         // Generate a JWT token
-        const token = jsonwebtoken_1.default.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
         res.json({ message: 'Login successful', token });
     }
     catch (error) {
@@ -69,11 +79,26 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.login = login;
 // Profile data logic
 const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Profile request received:', req.body); // Log the request body
+    console.log('Profile request received. User:', req.user); // Debug: Log the user object
     if (!req.user) {
-        console.log(res.status(401).json({ message: "Unauthorized" }));
+        console.log('Unauthorized access attempt'); // Debug: Log unauthorized access
+        res.status(401).json({ message: "Unauthorized" });
+        return;
     }
-    res.json({ message: "User profile", user: req.user });
+    try {
+        const userId = req.user.userId;
+        console.log(userId);
+        const user = yield user_model_1.default.findById(userId).select('-passwordHash');
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+        res.json({ message: "User profile", user });
+    }
+    catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
 exports.getProfile = getProfile;
 // export const logout = async (req: Request, res: Response): Promise<void> => {

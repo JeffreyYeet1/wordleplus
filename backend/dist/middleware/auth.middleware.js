@@ -26,6 +26,7 @@ const authenticateToken = (req, res, next) => {
         // Verify the jwt token
         jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, user) => {
             if (err) {
+                console.log('Token verification failed:', err.message);
                 return res.status(403).json({ error: 'Forbidden: Invalid token' });
             }
             // Attach the user to the request object allowing use of information
