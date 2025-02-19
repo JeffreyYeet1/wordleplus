@@ -6,7 +6,8 @@ import './profile.css';
 
 const ProfilePage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
-
+    const [userData, setUserData] = useState<any>(null);
+    // Calls when component is mounted, aka when this page is visited
     useEffect(() => {
         const fetchUserData = async () => {
             try{
@@ -18,7 +19,10 @@ const ProfilePage: React.FC = () => {
                     },
                 });
 
-                console.log("User data: ", response.data)
+                console.log('User data: ', response.data);
+                // const userDataArray = Object.entries(response.data.user);
+                // console.log(userDataArray);
+                setUserData(response.data.user);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                   console.error('Axios error:', error.response?.data || error.message);
@@ -34,7 +38,14 @@ const ProfilePage: React.FC = () => {
 
     return(
         <div className='profilecontainer'>
-            Welcome to your profile!
+            <h1>Welcome to your profile!</h1>
+            {userData && (
+            <div>
+                <p>Email: {userData.email}</p>
+                <p>Username: {userData.username}</p>
+                <p>Joined: {userData.createdAt}</p>
+            </div>
+            )}
             <LogOut />
         </div>
     );
