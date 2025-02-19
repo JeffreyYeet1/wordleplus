@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import AxiosAPI from '../../axiosapi';
 import './signup.css';
 
 interface FormData {
@@ -61,7 +62,7 @@ const SignUpPage: React.FC = () => {
     formDataEncoded.append('password', formData.password);
   
     try {
-      const response = await axios.post('/api/auth/signup', formDataEncoded, {
+      const response = await AxiosAPI.post('/api/auth/signup', formDataEncoded, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
