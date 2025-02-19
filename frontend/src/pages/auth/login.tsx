@@ -54,6 +54,7 @@ const LoginPage: React.FC = () => {
     formDataEncoded.append('password', formData.password);
 
     try {
+      // Send form data to backend for processing
       const response = await AxiosAPI.post('/api/auth/login', formDataEncoded, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -69,11 +70,12 @@ const LoginPage: React.FC = () => {
         // Store the token in localStorage
         localStorage.setItem('authToken', token);
         console.log('Token stored in localStorage');
+        // Redirect to profile
+        window.location.href = '/profile';
       } else {
         console.error('Token not found in response');
       }
-      // Redirect to profile page after login
-      window.location.href = '/profile';
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const apiError = error.response?.data as ApiError;
