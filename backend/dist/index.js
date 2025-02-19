@@ -34,7 +34,7 @@ app.use((req, res, next) => {
     next();
 });
 app.get('/', (req, res) => {
-    res.send("Hello from the backend!");
+    res.send("Hello from the backend");
 });
 // Test route
 app.get('/test', (req, res) => {
