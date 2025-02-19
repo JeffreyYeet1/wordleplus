@@ -29,3 +29,9 @@ docker-compose.override.yml
 # IDE/Editor
 .vscode/
 .idea/
+
+# ESLint cache
+frontend/node_modules/.cache/.eslintcache
+
+# TypeScript build cache
+frontend/node_modules/.cache/tsconfig.tsbuildinfo
