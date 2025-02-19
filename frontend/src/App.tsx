@@ -5,6 +5,8 @@ import HomePage from './pages/homepage/homepage';
 import DefaultWordle from './pages/defaultwordle/wordle';
 import NotFound from './pages/notfound/notfound';
 import SignUpPage from './pages/auth/signup';
+import LoginPage from './pages/auth/login';
+import ProfilePage from './pages/profile/profile';
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
 
         <Route path="/signup" element={<SignUpPage />} />
-        
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );

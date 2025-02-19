@@ -17,6 +17,10 @@ interface LoginRequestBody {
   password: string;
 }
 
+interface AuthenticatedRequest extends Request {
+  user?: { id: string; username: string; email: string }; // Customize as needed
+}
+
 // Signup logic
 export const signup = async (req: Request, res: Response): Promise<void> => {
   console.log('Signup request received:', req.body); // Add this line
@@ -47,7 +51,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 
 // Login logic
 export const login = async (req: Request, res: Response): Promise<void> => {
-  console.log('Login request received:', req.body); // Log the request body
+  console.log('Login request received:', req.body.email); // Log the request body
   const { email, password }: LoginRequestBody = req.body;
 
   try {
@@ -74,3 +78,46 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getProfile = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  console.log('Profile request received:', req.body); // Log the request body
+  if (!req.user) {
+    console.log(res.status(401).json({ message: "Unauthorized" }));
+  } 
+
+  res.json({ message: "User profile", user: req.user });
+  
+};
+
+// export const logout = async (req: Request, res: Response): Promise<void> => {
+//   console.log('Logout request received:', req.headers); // Log the request header
+//   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from the Authorization header
+//   console.log(token);
+//   if (!token) {
+//     res.status(400).json({ message: 'No token provided' });
+//     return; // Exit the function early
+//   }
+
+//   try {
+//     // Verify the token
+//     jwt.verify(token, process.env.JWT_SECRET || '', (err, decoded) => {
+//       if (err) {
+//         res.status(401).json({ message: 'Invalid or expired token' });
+//         return; // Exit the function early
+//       }
+
+//       // If you have a blacklist mechanism, you can add the token to it here
+//       // Example: addTokenToBlacklist(token);
+
+//       console.log('Token is valid:', decoded); // You can log or handle the decoded token as needed
+
+//       // Send a success response
+//       res.status(200).json({ message: 'Logged out successfully' });
+//       return; // Exit the function after sending the response
+//     });
+//   } catch (error) {
+//     console.error('Error during logout:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//     return; // Exit the function early
+//   }
+// };

@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
         <button className="hamburger-button" onClick={toggleMenu}>
           ☰
         </button>
-        <div className="login-register">
+        <div className="login-signup">
           <a href="/login">Login</a> | <a href="/signup">Sign Up</a>
         </div>
       </div>

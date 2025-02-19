@@ -14,6 +14,9 @@ services:
 
   backend:
     image: my-backend
+    volumes:
+       - ./backend/src:/app/src # Mount your source code
+       - ./backend/dist:/app/dist # Mount the dist directory
     build: ./backend
     ports:
       - "5001:5001"
@@ -21,6 +24,7 @@ services:
       - backend/.env
     depends_on:
       - mongo
+    command: npm run dev
 
   mongo:
     image: mongo:latest

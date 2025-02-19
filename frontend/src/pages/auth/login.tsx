@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import AxiosAPI from '../../axiosapi';
-import './signup.css';
+import './login.css';
 
 interface FormData {
-  username: string;
   email: string;
   password: string;
 }
@@ -13,9 +12,8 @@ interface ApiError {
   error: string;
 }
 
-const SignUpPage: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    username: '',
     email: '',
     password: '',
   });
@@ -30,48 +28,40 @@ const SignUpPage: React.FC = () => {
   };
 
   const validateForm = () => {
-    const { username, email, password } = formData;
+    const { email, password } = formData;
     const errors: { [key: string]: string } = {};
 
-    if (!username) errors.username = 'Username is required';
     if (!email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'Email is invalid';
     if (!password) errors.password = 'Password is required';
-    else if (password.length < 6) errors.password = 'Password must be at least 6 characters';
 
     return errors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Validate the form
+
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
-    // Clear errors if validation passes
+
     setErrors({});
-  
-    // Encode the form data as x-www-form-urlencoded
+
     const formDataEncoded = new URLSearchParams();
-    formDataEncoded.append('username', formData.username);
     formDataEncoded.append('email', formData.email);
     formDataEncoded.append('password', formData.password);
-  
+
     try {
-      const response = await AxiosAPI.post('/api/auth/signup', formDataEncoded, {
+      const response = await AxiosAPI.post('/api/auth/login', formDataEncoded, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      console.log('Signup successful:', response.data);
-  
-      // Log the entire response data
-      // console.log('Response data:', response.data);
-
+      console.log('Login successful:', response.data);
+      alert('Login successful!');
+      
       // Assuming the token is returned in response.data.token
       const token = response.data.token;
       
@@ -82,10 +72,7 @@ const SignUpPage: React.FC = () => {
       } else {
         console.error('Token not found in response');
       }
-  
-      alert('Signup successful!');
-  
-      // Redirect to profile
+      // Redirect to profile page after login
       window.location.href = '/profile';
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -101,24 +88,11 @@ const SignUpPage: React.FC = () => {
       }
     }
   };
-  
 
   return (
-    <div className="signupcontainer">
-      <h1>Sign Up</h1>
+    <div className="logincontainer">
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-          {errors.username && <span className="error">{errors.username}</span>}
-        </div>
         <div>
           <label htmlFor="email">Email:</label>
           <input
@@ -144,10 +118,10 @@ const SignUpPage: React.FC = () => {
           {errors.password && <span className="error">{errors.password}</span>}
         </div>
         {errors.submit && <span className="error">{errors.submit}</span>}
-        <button type="submit">Sign Up</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
 };
 
-export default SignUpPage;
+export default LoginPage;

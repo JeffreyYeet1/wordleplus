@@ -10,7 +10,10 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from the frontend
+  credentials: true, // Allow cookies and headers
+}));
 app.use(express.json()); // For JSON data
 app.use(express.urlencoded({ extended: true })); // For form data
 
@@ -32,9 +35,8 @@ app.use((req: Request, res: Response, next: Function) => {
   next();
 });
 
-// Serve the signup form
 app.get('/', (req: Request, res: Response) => {
-  res.send("Hello from the backend!");
+  res.send("Hello from the backend");
 });
 
 // Test route
