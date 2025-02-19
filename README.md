@@ -58,3 +58,5 @@ Games: containing multiplayer match session data, players involved, winner, stat
 GameLobby: containing players waiting, game status, word setup, gamemode, and this is all sent to a Games session once the game starts
 
 For now though I'm only concerned with User and Leaderboard as its too early to think about multiplayer
+
+Its about 9pm right now. I've added the signup logic and it adds the user to mongodb after a lot of headaches. Also put it on the frontend sign up button, its not styled but it works thats all I care about right now. Gotta learn how to create unique sessions now.. cooked.
