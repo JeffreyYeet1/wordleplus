@@ -67,6 +67,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+// Profile data logic
 const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Profile request received:', req.body); // Log the request body
     if (!req.user) {

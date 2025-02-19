@@ -6,12 +6,9 @@ const LogOut: React.FC = () => {
         try {
             // Get the token from localStorage
             const token = localStorage.getItem('authToken');
-            // Make the logout request with the token
-            // await axios.post('http://localhost:5001/api/auth/logout', {}, {
-            //     headers: {
-            //         Authorization: `Bearer ${token}`,
-            //     },
-            // });
+            // Make the logout request with the token for token blacklisting
+            // WIP
+
 
             // Remove the token from localStorage after successful logout
             localStorage.removeItem('authToken');

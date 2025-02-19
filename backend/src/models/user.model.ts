@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+// Used for password hashing
 const SALT_ROUNDS = 10;
 
 // Interface for the User document
@@ -12,6 +13,7 @@ export interface IUser extends Document {
   validatePassword(password: string): Promise<boolean>;
 }
 
+// New user schema
 const userSchema = new mongoose.Schema({
     username: { 
       type: String, 
@@ -42,14 +44,17 @@ const userSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
   });
   
+  // Method to hash password using salt rounds
   userSchema.methods.hashPassword = async function (password: string) {
     this.passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
   };
 
+  // Method to validate the password
   userSchema.methods.validatePassword = async function (password: string) {
     return await bcrypt.compare(password, this.passwordHash);
   };
 
+  // Creates the user model and exports it
   const User: Model<IUser> = mongoose.model<IUser>('User', userSchema);
   export default User;
   

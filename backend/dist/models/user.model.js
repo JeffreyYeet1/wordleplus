@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+// Used for password hashing
 const SALT_ROUNDS = 10;
+// New user schema
 const userSchema = new mongoose_1.default.Schema({
     username: {
         type: String,
@@ -44,15 +46,18 @@ const userSchema = new mongoose_1.default.Schema({
     // friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // For friend list
     createdAt: { type: Date, default: Date.now },
 });
+// Method to hash password using salt rounds
 userSchema.methods.hashPassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         this.passwordHash = yield bcryptjs_1.default.hash(password, SALT_ROUNDS);
     });
 };
+// Method to validate the password
 userSchema.methods.validatePassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield bcryptjs_1.default.compare(password, this.passwordHash);
     });
 };
+// Creates the user model and exports it
 const User = mongoose_1.default.model('User', userSchema);
 exports.default = User;

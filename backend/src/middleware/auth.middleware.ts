@@ -11,10 +11,13 @@ interface AuthenticatedRequest extends Request {
   user?: User; // Customize as needed
 }
 
+// Authenticates the json web token to protect certain pages. 
 const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+  // Extracts the token from the authorization header
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
+  // Checks if token exists
   if (!token) {
     console.log("Access Denied: No token provided");
     res.status(401).json({ message: "Access Denied: No token provided" }); // Return to stop further execution
@@ -22,6 +25,7 @@ const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextF
   }
 
   try {
+    // Get JWT_SECRET from .env file
     const JWT_SECRET = process.env.JWT_SECRET;
 
     // Ensure JWT_SECRET is defined
@@ -29,11 +33,14 @@ const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextF
       console.log(res.status(500).json({ error: 'JWT secret is not configured' }));
       return;
     }
+
+    // Verify the jwt token
     jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) {
         return res.status(403).json({ error: 'Forbidden: Invalid token' });
       }
-      req.user = user as User; // Attach the user to the request object
+      // Attach the user to the request object allowing use of information
+      req.user = user as User; 
       next();
     });
   } catch (error) {

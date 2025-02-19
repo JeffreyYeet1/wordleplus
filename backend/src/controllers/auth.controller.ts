@@ -79,6 +79,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+
+// Profile data logic
 export const getProfile = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   console.log('Profile request received:', req.body); // Log the request body
   if (!req.user) {

@@ -13,12 +13,14 @@ interface ApiError {
 }
 
 const LoginPage: React.FC = () => {
+  // Create form data and error variables
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  // Dynamically updates the variable values when the user enters information
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -27,6 +29,7 @@ const LoginPage: React.FC = () => {
     });
   };
 
+  // Checks if the entered info matches the proper format, adds errors if not proper
   const validateForm = () => {
     const { email, password } = formData;
     const errors: { [key: string]: string } = {};
@@ -38,9 +41,11 @@ const LoginPage: React.FC = () => {
     return errors;
   };
 
+  // Handles the submit function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Populates any validation errors if any and exits the function
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -49,6 +54,7 @@ const LoginPage: React.FC = () => {
 
     setErrors({});
 
+    // Collects data from the form to put into an encoded format that it compatible with the backend
     const formDataEncoded = new URLSearchParams();
     formDataEncoded.append('email', formData.email);
     formDataEncoded.append('password', formData.password);

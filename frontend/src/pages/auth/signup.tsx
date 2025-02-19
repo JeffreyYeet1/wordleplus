@@ -14,6 +14,7 @@ interface ApiError {
 }
 
 const SignUpPage: React.FC = () => {
+  // Creates form data and error variables
   const [formData, setFormData] = useState<FormData>({
     username: '',
     email: '',
@@ -21,6 +22,7 @@ const SignUpPage: React.FC = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  // Dynamically updates the form data as the user enters info
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -29,6 +31,7 @@ const SignUpPage: React.FC = () => {
     });
   };
 
+  // Validates the form arguments, returns any errors if invalid form
   const validateForm = () => {
     const { username, email, password } = formData;
     const errors: { [key: string]: string } = {};
