@@ -42,17 +42,17 @@ body, html {
     padding-left: 30px; /* Padding only on the left */
   }
   
-  .login-register {
+  .login-signup {
     padding-right: 30px; /* Padding only on the right */
   }
   
-  .login-register a {
+  .login-signup a {
     margin: 0 10px; /* Reduced margin between links */
     text-decoration: none;
     color: #ffffff;
   }
   
-  .login-register a:hover {
+  .login-signup a:hover {
     text-decoration: underline;
   }
   

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.signup = void 0;
+exports.getProfile = exports.login = exports.signup = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 // Signup logic
@@ -42,7 +42,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.signup = signup;
 // Login logic
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Login request received:', req.body); // Log the request body
+    console.log('Login request received:', req.body.email); // Log the request body
     const { email, password } = req.body;
     try {
         // Find the user by email
@@ -67,3 +67,39 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('Profile request received:', req.body); // Log the request body
+    if (!req.user) {
+        console.log(res.status(401).json({ message: "Unauthorized" }));
+    }
+    res.json({ message: "User profile", user: req.user });
+});
+exports.getProfile = getProfile;
+// export const logout = async (req: Request, res: Response): Promise<void> => {
+//   console.log('Logout request received:', req.headers); // Log the request header
+//   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from the Authorization header
+//   console.log(token);
+//   if (!token) {
+//     res.status(400).json({ message: 'No token provided' });
+//     return; // Exit the function early
+//   }
+//   try {
+//     // Verify the token
+//     jwt.verify(token, process.env.JWT_SECRET || '', (err, decoded) => {
+//       if (err) {
+//         res.status(401).json({ message: 'Invalid or expired token' });
+//         return; // Exit the function early
+//       }
+//       // If you have a blacklist mechanism, you can add the token to it here
+//       // Example: addTokenToBlacklist(token);
+//       console.log('Token is valid:', decoded); // You can log or handle the decoded token as needed
+//       // Send a success response
+//       res.status(200).json({ message: 'Logged out successfully' });
+//       return; // Exit the function after sending the response
+//     });
+//   } catch (error) {
+//     console.error('Error during logout:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//     return; // Exit the function early
+//   }
+// };
