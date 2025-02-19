@@ -6,7 +6,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
-      - /app/node_modules
+      - frontend-node-modules:/app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true # Enable live reloading
     depends_on:
@@ -18,4 +18,17 @@ services:
     ports:
       - "5001:5001"
     env_file:
-      - backend/.env 
+      - backend/.env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+  frontend-node-modules:

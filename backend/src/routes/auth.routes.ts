@@ -1,15 +1,20 @@
-// auth.routes.js
-const express = require('express');
+// routes/auth.routes.ts
+import express from 'express';
+import { signup, login } from '../controllers/auth.controller';
+
 const router = express.Router();
-const authController = require('../controllers/auth.controller');
 
-// POST /register - Register a new user
-router.post('/register', authController.register);
+// Signup route
+router.post('/signup', (req, res, next) => {
+    console.log('Signup route hit'); // Add this line
+    next();
+  }, signup);
 
-// POST /login - Login an existing user
-router.post('/login', authController.login);
+// Login route
+router.post('/login', (req, res, next) => {
+    console.log('Login route hit'); // Add this line
+    next();
+  }, login);
 
-// POST /logout - Logout the current user
-router.post('/logout', authController.logout);
 
-module.exports = router;
+export default router;

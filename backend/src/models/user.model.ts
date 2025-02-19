@@ -1,20 +1,55 @@
-const mongoose = require('mongoose');
+import mongoose, { Document, Schema, Model } from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+const SALT_ROUNDS = 10;
+
+// Interface for the User document
+export interface IUser extends Document {
+  username: string;
+  email: string;
+  passwordHash: string;
+  hashPassword(password: string): Promise<void>;
+  validatePassword(password: string): Promise<boolean>;
+}
 
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    passwordHash: { type: String, required: true }, // For password hashing
-    stats: {
-      totalGames: { type: Number, default: 0 },
-      gamesWon: { type: Number, default: 0 },
-      longestStreak: { type: Number, default: 0 },
-      averageGuesses: { type: Number, default: 0 },
-    },
-    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // For friend list
+    username: { 
+      type: String, 
+      required: true, 
+      unique: true,
+      minlength: 3,
+      maxlength: 20,
+      match: /^[a-zA-Z0-9_]+$/, }, // Alphanumeric and underscore characters only
+
+    email: { 
+      type: String, 
+      required: true, 
+      unique: true,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, }, // Basic email regex
+
+    passwordHash: { 
+      type: String, 
+      required: true }, // For password hashing
+
+    // For a later date
+    // stats: {
+    //   totalGames: { type: Number, default: 0 },
+    //   gamesWon: { type: Number, default: 0 },
+    //   longestStreak: { type: Number, default: 0 },
+    //   averageGuesses: { type: Number, default: 0 },
+    // },
+    // friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // For friend list
     createdAt: { type: Date, default: Date.now },
   });
   
-  const User = mongoose.model('User', userSchema);
+  userSchema.methods.hashPassword = async function (password: string) {
+    this.passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+  };
 
-  module.exports = User;
+  userSchema.methods.validatePassword = async function (password: string) {
+    return await bcrypt.compare(password, this.passwordHash);
+  };
+
+  const User: Model<IUser> = mongoose.model<IUser>('User', userSchema);
+  export default User;
   

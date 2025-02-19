@@ -1,53 +1,76 @@
-// const User = require('../models/user.model');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// import { Request, Response } from 'express'; // Import types from express
+// controllers/authController.ts
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import User, { IUser } from '../models/user.model';
 
-// // Register a new user
-// exports.register = async (req: Request, res: Response) => {
-//   try {
-//     const { username, email, password } = req.body;
-    
-//     // Check if the user already exists
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       return res.status(400).json({ error: 'Email is already in use' });
-//     }
+// Interface for the request body during signup
+interface SignupRequestBody {
+  username: string;
+  email: string;
+  password: string;
+}
 
-//     // Hash the password before saving
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const user = new User({ username, email, passwordHash: hashedPassword });
+// Interface for the request body during login
+interface LoginRequestBody {
+  email: string;
+  password: string;
+}
 
-//     await user.save();
-//     res.status(201).json({ message: 'User registered successfully' });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Error registering user' });
-//   }
-// };
+// Signup logic
+export const signup = async (req: Request, res: Response): Promise<void> => {
+  console.log('Signup request received:', req.body); // Add this line
+  const { username, email, password }: SignupRequestBody = req.body;
 
-// // Login an existing user
-// exports.login = async (req: Request, res: Response) => {
-//   try {
-//     const { email, password } = req.body;
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
+  try {
+    // Check if user already exists
+    const existingUser: IUser | null = await User.findOne({ email });
+    if (existingUser) {
+      res.status(400).json({ error: 'User already exists' });
+      return;
+    }
 
-//     // Compare the provided password with the hashed password
-//     const isMatch = await bcrypt.compare(password, user.passwordHash);
-//     if (!isMatch) {
-//       return res.status(400).json({ error: 'Invalid credentials' });
-//     }
+    // Create a new user
+    const user: IUser = new User({ username, email });
+    await user.hashPassword(password); // Hash the password
+    await user.save();
 
-//     // Generate a JWT token for authentication
-//     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    // Generate a JWT token
+    const token: string = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
 
-//     // Send the token as a response
-//     res.json({ token });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Error logging in user' });
-//   }
-// };
+    res.status(201).json({ message: 'User created', token });
+  } catch (error: any) {
+    console.error('Signup error: ', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Login logic
+export const login = async (req: Request, res: Response): Promise<void> => {
+  console.log('Login request received:', req.body); // Log the request body
+  const { email, password }: LoginRequestBody = req.body;
+
+  try {
+    // Find the user by email
+    const user: IUser | null = await User.findOne({ email });
+    if (!user) {
+      res.status(400).json({ error: 'User not found' });
+      return;
+    }
+
+    // Validate the password
+    const isValid: boolean = await user.validatePassword(password);
+    if (!isValid) {
+      res.status(400).json({ error: 'Invalid password' });
+      return;
+    }
+
+    // Generate a JWT token
+    const token: string = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+
+    res.json({ message: 'Login successful', token });
+  } catch (error: any) {
+    console.error('Login error: ', error);
+    res.status(500).json({ error: error.message });
+  }
+};

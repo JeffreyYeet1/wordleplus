@@ -6,21 +6,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5001;
 // Middleware
-app.use(express_1.default.json());
-// Connect to MongoDB
-mongoose_1.default.connect(process.env.MONGO_URI, {
-    dbName: 'wordleplus',
-})
-    .then(() => console.log('Connected to MongoDB'))
+app.use(express_1.default.json()); // For JSON data
+app.use(express_1.default.urlencoded({ extended: true })); // For form data
+// Connect to MongoDB Atlas
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+    console.error('MONGO_URI is not defined in the environment variables.');
+    process.exit(1);
+}
+mongoose_1.default
+    .connect(MONGO_URI)
+    .then(() => console.log('Connected to MongoDB Atlas'))
     .catch((err) => console.error('MongoDB connection error:', err));
-// Routes
-app.get('/', (req, res) => {
-    res.send('Hello from the backend!');
+// Logging middleware
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
 });
+// Serve the signup form
+app.get('/', (req, res) => {
+    res.send("Hello from the backend!");
+});
+// Test route
+app.get('/test', (req, res) => {
+    console.log('Test route hit');
+    res.send('Server is working!');
+});
+// Mount auth routes
+app.use('/api/auth', auth_routes_1.default);
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
           ☰
         </button>
         <div className="login-register">
-          <a href="/login">Login</a> | <a href="/register">Register</a>
+          <a href="/login">Login</a> | <a href="/signup">Sign Up</a>
         </div>
       </div>
 

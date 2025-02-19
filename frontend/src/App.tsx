@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/homepage/homepage';
 import DefaultWordle from './pages/defaultwordle/wordle';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NotFound from './pages/notfound/notfound';
+import SignUpPage from './pages/auth/signup';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
 
         {/* 404 Page */}
         <Route path="*" element={<NotFound />} />
+
+        <Route path="/signup" element={<SignUpPage />} />
+        
       </Routes>
     </Router>
   );
