@@ -22,6 +22,7 @@ function App() {
         {/* 404 Page */}
         <Route path="*" element={<NotFound />} />
 
+        {/* Auth routes */}
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>

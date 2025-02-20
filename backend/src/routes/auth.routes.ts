@@ -1,6 +1,12 @@
 // routes/auth.routes.ts
 import express from 'express';
-import { getProfile, signup, login } from '../controllers/auth.controller';
+
+// Controller imports
+import { signup, login } from '../controllers/auth.controller';
+import { postUser } from '../controllers/user.controller';
+import { getProfile } from '../controllers/profile.controller';
+
+// Middleware imports
 import { logRequest } from '../middleware/logging.middleware';
 import authenticateToken from '../middleware/auth.middleware';
 
@@ -18,7 +24,10 @@ router.post('/login', login);
 // Profile route (protected)
 router.get("/profile", authenticateToken, getProfile);
 
-// Logout route (send the response directly from the controller)
-// router.post('/logout', logout);
+router.post("/user", authenticateToken, postUser);
+
+router.get('/validate-token', authenticateToken, (req, res) => {
+    res.json({ message: 'Token is valid' });
+  });
 
 export default router;

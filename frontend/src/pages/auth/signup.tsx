@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import AxiosAPI from '../../axiosapi';
 import './signup.css';
+import UI from '../components/UI';
 
 interface FormData {
   username: string;
@@ -105,6 +106,7 @@ const SignUpPage: React.FC = () => {
 
   return (
     <div className="signupcontainer">
+      <UI />
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div>

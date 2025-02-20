@@ -1,9 +1,7 @@
 // controllers/authController.ts
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/user.model';
-import { AuthenticatedRequest } from '../middleware/auth.middleware';
 
 // Interface for the request body during signup
 interface SignupRequestBody {
@@ -84,61 +82,3 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: error.message });
   }
 };
-
-
-// Profile data logic
-export const getProfile = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  console.log('Profile request received. User:', req.user); // Debug: Log the user object
-  if (!req.user) {
-    console.log('Unauthorized access attempt'); // Debug: Log unauthorized access
-    res.status(401).json({ message: "Unauthorized" });
-    return;
-  } 
-  try{
-    const userId = req.user.userId;
-    console.log(userId);
-    const user = await User.findById(userId).select('-passwordHash');
-    if (!user) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-    res.json({ message: "User profile", user });
-  } catch(error){
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-
-};
-
-// export const logout = async (req: Request, res: Response): Promise<void> => {
-//   console.log('Logout request received:', req.headers); // Log the request header
-//   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from the Authorization header
-//   console.log(token);
-//   if (!token) {
-//     res.status(400).json({ message: 'No token provided' });
-//     return; // Exit the function early
-//   }
-
-//   try {
-//     // Verify the token
-//     jwt.verify(token, process.env.JWT_SECRET || '', (err, decoded) => {
-//       if (err) {
-//         res.status(401).json({ message: 'Invalid or expired token' });
-//         return; // Exit the function early
-//       }
-
-//       // If you have a blacklist mechanism, you can add the token to it here
-//       // Example: addTokenToBlacklist(token);
-
-//       console.log('Token is valid:', decoded); // You can log or handle the decoded token as needed
-
-//       // Send a success response
-//       res.status(200).json({ message: 'Logged out successfully' });
-//       return; // Exit the function after sending the response
-//     });
-//   } catch (error) {
-//     console.error('Error during logout:', error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//     return; // Exit the function early
-//   }
-// };

@@ -24,26 +24,27 @@ const userSchema = new mongoose_1.default.Schema({
         unique: true,
         minlength: 3,
         maxlength: 20,
-        match: /^[a-zA-Z0-9_]+$/,
-    }, // Alphanumeric and underscore characters only
+        match: /^[a-zA-Z0-9_]+$/, // Alphanumeric and underscore characters only
+    },
     email: {
         type: String,
         required: true,
         unique: true,
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    }, // Basic email regex
+        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email regex
+    },
     passwordHash: {
         type: String,
-        required: true
-    }, // For password hashing
-    // For a later date
-    // stats: {
-    //   totalGames: { type: Number, default: 0 },
-    //   gamesWon: { type: Number, default: 0 },
-    //   longestStreak: { type: Number, default: 0 },
-    //   averageGuesses: { type: Number, default: 0 },
-    // },
-    // friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // For friend list
+        required: true,
+    },
+    stats: {
+        totalGames: { type: Number, default: 0 },
+        gamesWon: { type: Number, default: 0 },
+        lastGameWon: { type: Boolean, default: false },
+        currentStreak: { type: Number, default: 0 },
+        longestStreak: { type: Number, default: 0 },
+        guessDist: { type: [Number], default: [0, 0, 0, 0, 0, 0] }, // Array of numbers
+        averageGuesses: { type: Number, default: 0 },
+    },
     createdAt: { type: Date, default: Date.now },
 });
 // Method to hash password using salt rounds

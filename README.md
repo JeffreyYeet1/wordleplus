@@ -63,3 +63,12 @@ Its about 9pm right now. I've added the signup logic and it adds the user to mon
 
 Its 1am right now. Just got through the brain damage of trouble shooting token authentication and logout functionality. overcooked.
 Need to figure out how to update docker in real time otherwise its just useless. Do that tomorrow with another white monster.
+
+Feb 19th, 2025:
+I've done so many little small things and bug fixes today but now everything actually works as intended. Token auth, logout, protecting the profile page, fetching data from backend. Ok but now that I can actually communicate with the backend on an account instance, its time to think about what kind of statistics I want to track from the game. And which to display for all users                     f
+
+-Games played?
+-Guess distribution
+-Number of correct guesses
+-Time? not now but in the future
+-

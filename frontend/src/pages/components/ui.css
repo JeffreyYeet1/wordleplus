@@ -1,0 +1,70 @@
+  /* Top Bar */
+  .top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0; /* Padding only at the top and bottom */
+    background-color: rgb(18, 18, 19);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .hamburger-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ffffff;
+    padding-left: 30px; /* Padding only on the left */
+  }
+  
+  .login-signup {
+    padding-right: 30px; /* Padding only on the right */
+  }
+  
+  .login-signup a {
+    margin: 0 10px; /* Reduced margin between links */
+    text-decoration: none;
+    color: #ffffff;
+  }
+  
+  .login-signup a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Side Menu */
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: rgb(30, 30, 31);
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .menu-content {
+    padding: 20px;
+  }
+  
+  .menu-content p {
+    margin: 10px 0;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  
+  .menu-content p:hover {
+    color: #cccccc;
+  }
+  
+  /* Dimmed Background */
+  .dimmed-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+  }

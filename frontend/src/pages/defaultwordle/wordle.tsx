@@ -7,6 +7,9 @@ import End from "./components/end";
 import validWords from "../../worddata/validwords.json";
 import solutionWords from "../../worddata/solutionwords.json";
 import Invalid from "./components/invalidword";
+import UI from "../components/UI";
+import AxiosAPI from "../../axiosapi";
+import axios from "axios";
 
 const DefaultWordle: React.FC = () => {
     // State variables
@@ -19,11 +22,7 @@ const DefaultWordle: React.FC = () => {
     const [gameWon, setGameWon] = useState(false); // Tracks if the game is won
     const [gameEnd, setGameEnd] = useState(false); // Tracks if the game has ended
     const [resultCode, setResultCode] = useState<string[]>(Array(6).fill('')); // Stores feedback codes for guesses
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // State for side menu
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
     // Function to check if a word is valid
     const checkWordValidity = (word: string) => {
         const isValid = validWords.includes(word.toLowerCase());
@@ -163,31 +162,59 @@ const DefaultWordle: React.FC = () => {
         setResultArray([]);
         setSolutionWord(solutionWords[Math.floor(Math.random() * solutionWords.length)].toUpperCase()); // Selects a new word
     }
+
+    // Backend communication
+
+    // Detect when game has finished. Win/end
+
+    useEffect (() => {
+      const logStats = async () => {
+        console.log("Log Stats hit");
+        if (gameEnd || gameWon) {
+          const token = localStorage.getItem('authToken');
+          console.log(token);
+          if (!token) return;
+          
+          const gameEndData = {
+            gameWon,  // true or false
+            number, // Number of attempts
+          }; 
+
+          try {
+            console.log("in try");
+            const response = await AxiosAPI.post('api/auth/user', gameEndData, {
+              headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type' : 'application/json'
+              }
+            }); 
+            console.log("after try");
+            console.log("Posted stats: ", response.data);
+          } catch (error:any) {
+            console.log("Could not post stats: ",error);
+   
+            if (error.response) {
+              // Server responded with a status outside the 2xx range
+              console.error("Error response status:", error.response.status);
+              console.error("Error response data:", error.response.data);
+            } else if (error.request) {
+              // The request was made but no response was received
+              console.error("No response received:", error.request);
+            } else {
+              // An error occurred while setting up the request
+              console.error("Error setting up the request:", error.message);
+            }
+          }
+  
+        } return;
+      }
+      logStats();
+    }, [gameEnd, gameWon]);
     
     return(
         <>
             <div className="defaultwordlecontainer">
-                {/* Top Bar */}
-                <div className="top-bar">
-                    <button className="hamburger-button" onClick={toggleMenu}>
-                        ☰
-                    </button>
-                    <div className="defaultwordle-title">Wordle</div>
-                </div>
-
-                {/* Side Menu */}
-                {isMenuOpen && (
-                    <div className="side-menu">
-                        <div className="menu-content">
-                            <p>Menu Item 1</p>
-                            <p>Menu Item 2</p>
-                            <p>Menu Item 3</p>
-                        </div>
-                    </div>
-                )}
-
-                {/* Dimmed Background */}
-                {isMenuOpen && <div className="dimmed-background" onClick={toggleMenu} />}
+                <UI />
                 <End Win = {gameWon} Lose = {gameEnd} PlayAgain={playAgain} word={solutionWord}/>
                 {(gameEnd || gameWon) ? null : <KeyboardListener onKeyPress={handleKeyPress}/>}
                 <Grid word = {keysPressed} guessNumber={number} guesses = {guesses} resultCode = {resultCode}/>

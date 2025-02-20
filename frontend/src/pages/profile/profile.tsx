@@ -3,6 +3,7 @@ import LogOut from '../components/logout';
 import AxiosAPI from '../../axiosapi';
 import axios from 'axios';
 import './profile.css';
+import UI from '../components/UI';
 
 const ProfilePage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
@@ -38,6 +39,7 @@ const ProfilePage: React.FC = () => {
 
     return(
         <div className='profilecontainer'>
+            <UI />
             <h1>Welcome to your profile!</h1>
             {userData && (
             <div>
