@@ -31,6 +31,8 @@ For a mobile app:
 -Flutter and dart 
 -Node.js
 
+Lowkey this is just a log of what I'm doing.
+
 Oct 3, 2024:
 Currently working on simply tranposing everything from HTML/CSS/JS to React/TSX.
 Planning to implement other game modes before worrying about keeping data.
