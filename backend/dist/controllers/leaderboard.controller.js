@@ -27,7 +27,9 @@ const getLeaderboard = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return;
         }
         const sortOrder = sortBy === 'stats.averageGuesses' ? 1 : -1;
-        const leaderboard = yield user_model_1.default.find()
+        const leaderboard = yield user_model_1.default.find({
+            [sortBy]: { $ne: 0 } // Excludes entries where the stat is 0
+        })
             .sort({ [sortBy]: sortOrder })
             .limit(10);
         res.json(leaderboard);

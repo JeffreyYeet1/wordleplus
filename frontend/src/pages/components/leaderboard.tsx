@@ -31,9 +31,12 @@ const Leaderboard: React.FC = () => {
                 setLoading(false);
             }
         };
-
         fetchLeaderboardData();
-    }, [currentStat]); // Re-fetch data when currentStat changes
+
+        const interval = setInterval(fetchLeaderboardData, 2000);
+
+        return () => clearInterval(interval); // Cleanup interval on unmount
+    }, [currentStatIndex]); // Re-fetch data when currentStat changes
 
     const handleNextStat = () => {
         setCurrentStatIndex((prevIndex) => (prevIndex + 1) % stats.length); // Cycle to the next stat
@@ -54,10 +57,10 @@ const Leaderboard: React.FC = () => {
     return (
         <div className='leaderboardcontainer'>
             <h1>Leaderboard</h1>
+            <span className="stat-label">{currentStat.label}</span>
             <div className="stat-navigation">
-                <button onClick={handlePreviousStat}>&larr; Previous</button>
-                <span className="stat-label">{currentStat.label}</span>
-                <button onClick={handleNextStat}>Next &rarr;</button>
+                <button onClick={handlePreviousStat}>&larr;</button>
+                <button onClick={handleNextStat}>&rarr;</button>
             </div>
             <table>
                 <thead>

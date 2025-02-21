@@ -17,13 +17,15 @@ const End: React.FC<EndScreenProps> = ({ Win, Lose, PlayAgain, word }) => {
             <div className="endcontainer" style={{ display: (Win || Lose) ? 'flex' : 'none' }}
             >
                 {Win && <div className="acontainer">
-                    <p>Congratulations! You guessed the word! {word}</p>
-                    <p>Thanks for playing!</p>
+                    <div>Congratulations!</div>
+                    <div>The word was {word}</div>
+                    <div>Thanks for playing!</div>
                 <button className="playagain" onClick={handleClick}>Play Again?</button>    
                 </div>}
                 {(Lose && !Win) && <div className="acontainer">
-                    <p>The word was {word}</p>
-                    <p>Thanks for playing!</p>
+                    <div>The word was </div>
+                    <div>{word}</div>
+                    <div>Thanks for playing!</div>
                 <button className="playagain" onClick={handleClick}>Play Again?</button>    
                 </div>}
             </div>

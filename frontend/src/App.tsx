@@ -19,7 +19,6 @@ function App() {
 
         {/* Default Wordle route */}
         <Route path="/defaultwordle" element={<DefaultWordle />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
 
         {/* 404 Page */}
         <Route path="*" element={<NotFound />} />

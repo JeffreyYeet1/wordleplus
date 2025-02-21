@@ -10,6 +10,7 @@ import Invalid from "./components/invalidword";
 import UI from "../components/UI";
 import AxiosAPI from "../../axiosapi";
 import axios from "axios";
+import Leaderboard from "../components/leaderboard";
 
 const DefaultWordle: React.FC = () => {
     // State variables
@@ -211,18 +212,23 @@ const DefaultWordle: React.FC = () => {
       logStats();
     }, [gameEnd, gameWon]);
     
-    return(
-        <>
-            <div className="defaultwordlecontainer">
-                <UI />
-                <End Win = {gameWon} Lose = {gameEnd} PlayAgain={playAgain} word={solutionWord}/>
-                {(gameEnd || gameWon) ? null : <KeyboardListener onKeyPress={handleKeyPress}/>}
-                <Grid word = {keysPressed} guessNumber={number} guesses = {guesses} resultCode = {resultCode}/>
-                <Keyboard onKeyClick = {handleKeyPress} resultArray={resultArray}/>
-                {isValidWord ? null : <Invalid />}
-            </div>
-        </>
-    );
+    return (
+      <>
+          <div className="defaultwordlecontainer">
+              <UI />
+              <div className="game-container"> {/* Wrapper for existing components */}
+                  <End Win={gameWon} Lose={gameEnd} PlayAgain={playAgain} word={solutionWord} />
+                  {(gameEnd || gameWon) ? null : <KeyboardListener onKeyPress={handleKeyPress} />}
+                  <Grid word={keysPressed} guessNumber={number} guesses={guesses} resultCode={resultCode} />
+                  <Keyboard onKeyClick={handleKeyPress} resultArray={resultArray} />
+                  {isValidWord ? null : <Invalid />}
+              </div>
+              <div className="leaderboard-side"> {/* Leaderboard on the side */}
+                  <Leaderboard />
+              </div>
+          </div>
+      </>
+  );
 }
 
 export default DefaultWordle;

@@ -17,7 +17,9 @@ export const getLeaderboard = async (req: Request, res: Response):Promise<void> 
         }
 
         const sortOrder = sortBy === 'stats.averageGuesses' ? 1 : -1; 
-        const leaderboard = await User.find()
+        const leaderboard = await User.find({ 
+            [sortBy]: { $ne: 0 }  // Excludes entries where the stat is 0
+        })
             .sort({ [sortBy]: sortOrder })
             .limit(10);
 

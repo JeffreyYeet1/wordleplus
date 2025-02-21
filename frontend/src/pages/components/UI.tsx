@@ -26,7 +26,6 @@ const UI: React.FC = () => {
                 <div className="menu-content">
                 <p><a href = '/'>Home</a></p>
                 <p><a href = '/profile'>Profile</a></p>
-                <p><a href = 'leaderboard'>Leaderboard</a></p>
                 </div>
             </div>
             )}

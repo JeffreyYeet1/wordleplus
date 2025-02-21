@@ -7,7 +7,7 @@ const leaderboardSchema = new mongoose.Schema({
       required: true, 
       unique: true,
       minlength: 3,
-      maxlength: 20,
+      maxlength: 12,
       match: /^[a-zA-Z0-9_]+$/,  // Alphanumeric and underscore characters only
     },
 

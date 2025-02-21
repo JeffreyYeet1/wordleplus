@@ -5,7 +5,7 @@ body, html {
     font-family: Arial, sans-serif;
     background-color: rgb(18, 18, 19);
     color: #ffffff;
-    overflow: hidden; /* Prevent scrolling on the entire page */
+    overflow: hidden;
 }
 
 * {
@@ -94,8 +94,27 @@ body, html {
     color: white;
     overflow: hidden; /* Prevent scrolling within the container */
     box-sizing: border-box; /* Ensures padding doesn't add extra height */
+    position: relative; /* Needed for absolute positioning of the leaderboard */
 }
 
-div {
-    color:white;
+/* Centered Game Container */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Limit width of the game container */
+}
+
+/* Leaderboard on the Side */
+.leaderboard-side {
+    position: absolute; /* Absolute positioning */
+    top: 80px; /* Adjust based on your top bar height */
+    right: 20px; /* Distance from the right edge */
+    width: 300px; /* Fixed width for the leaderboard */
+    background-color: rgb(30, 30, 31); /* Match the theme */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Ensure it's above other content */
 }
