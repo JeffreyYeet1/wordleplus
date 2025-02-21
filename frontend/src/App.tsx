@@ -8,6 +8,7 @@ import SignUpPage from './pages/auth/signup';
 import LoginPage from './pages/auth/login';
 import ProfilePage from './pages/profile/profile';
 import ProtectedRoute from './protectedroute';
+import Leaderboard from './pages/components/leaderboard';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
 
         {/* Default Wordle route */}
         <Route path="/defaultwordle" element={<DefaultWordle />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
 
         {/* 404 Page */}
         <Route path="*" element={<NotFound />} />

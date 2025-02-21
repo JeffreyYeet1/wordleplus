@@ -1,0 +1,29 @@
+import { Request, Response } from 'express';
+import User from '../models/user.model';
+
+export const getLeaderboard = async (req: Request, res: Response):Promise<void> => {
+    try {
+        const sortBy = req.query.sortBy as string || 'stats.gamesWon';
+
+        const validStats = [
+            'stats.gamesWon',
+            'stats.longestStreak',
+            'stats.averageGuesses',
+        ];
+
+        if (!validStats.includes(sortBy)) {
+            res.status(400).json({ message: 'Invalid sortBy parameter' });
+            return;
+        }
+
+        const sortOrder = sortBy === 'stats.averageGuesses' ? 1 : -1; 
+        const leaderboard = await User.find()
+            .sort({ [sortBy]: sortOrder })
+            .limit(10);
+
+        res.json(leaderboard);
+    } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};

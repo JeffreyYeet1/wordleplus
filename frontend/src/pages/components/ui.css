@@ -1,7 +1,7 @@
   /* Top Bar */
   .top-bar {
     width: 100%;
-    display: flex;
+    display: grid;
     justify-content: space-between;
     align-items: center;
     padding: 15px 0; /* Padding only at the top and bottom */
@@ -18,17 +18,14 @@
     padding-left: 30px; /* Padding only on the left */
   }
   
-  .login-signup {
-    padding-right: 30px; /* Padding only on the right */
-  }
-  
-  .login-signup a {
+  .login-signup-logout a {
     margin: 0 10px; /* Reduced margin between links */
     text-decoration: none;
     color: #ffffff;
+    cursor: pointer;
   }
   
-  .login-signup a:hover {
+  .login-signup-logout a:hover {
     text-decoration: underline;
   }
   
@@ -48,7 +45,7 @@
     padding: 20px;
   }
   
-  .menu-content p {
+  .menu-content a {
     margin: 10px 0;
     cursor: pointer;
     color: #ffffff;

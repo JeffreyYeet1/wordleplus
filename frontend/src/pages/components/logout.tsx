@@ -23,7 +23,7 @@ const LogOut: React.FC = () => {
     };
 
     return (
-        <button onClick={handleLogout}>Log Out</button>
+        <a onClick={handleLogout}>Log Out</a>
     );
 };
 

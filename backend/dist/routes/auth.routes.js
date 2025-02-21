@@ -9,6 +9,7 @@ const express_1 = __importDefault(require("express"));
 const auth_controller_1 = require("../controllers/auth.controller");
 const user_controller_1 = require("../controllers/user.controller");
 const profile_controller_1 = require("../controllers/profile.controller");
+const leaderboard_controller_1 = require("../controllers/leaderboard.controller");
 // Middleware imports
 const logging_middleware_1 = require("../middleware/logging.middleware");
 const auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
@@ -25,4 +26,5 @@ router.post("/user", auth_middleware_1.default, user_controller_1.postUser);
 router.get('/validate-token', auth_middleware_1.default, (req, res) => {
     res.json({ message: 'Token is valid' });
 });
+router.get("/leaderboard", leaderboard_controller_1.getLeaderboard);
 exports.default = router;

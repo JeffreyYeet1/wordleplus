@@ -12,22 +12,21 @@ const UI: React.FC = () => {
         <>
             {/* Top Bar */}
             <div className="top-bar">
-            <button className="hamburger-button" onClick={toggleMenu}>
-                ☰
-            </button>
-            {localStorage.getItem('authToken') ? (<LogOut />) : ( 
-            <div className="login-signup">
-                <a href="/login">Login</a> | <a href="/signup">Sign Up</a>
-            </div>)}
+                <button className="hamburger-button" onClick={toggleMenu}>
+                    ☰
+                </button>
+                <div className="login-signup-logout">
+                    {localStorage.getItem('authToken') ? <LogOut /> : <><a href="/login">Login</a> | <a href="/signup">Sign Up</a></>}
+                </div>
             </div>
     
             {/* Side Menu */}
             {isMenuOpen && (
             <div className="side-menu">
                 <div className="menu-content">
-                <p>Menu Item 1</p>
-                <p>Menu Item 2</p>
-                <p>Menu Item 3</p>
+                <p><a href = '/'>Home</a></p>
+                <p><a href = '/profile'>Profile</a></p>
+                <p><a href = 'leaderboard'>Leaderboard</a></p>
                 </div>
             </div>
             )}

@@ -5,6 +5,7 @@ import express from 'express';
 import { signup, login } from '../controllers/auth.controller';
 import { postUser } from '../controllers/user.controller';
 import { getProfile } from '../controllers/profile.controller';
+import { getLeaderboard } from '../controllers/leaderboard.controller';
 
 // Middleware imports
 import { logRequest } from '../middleware/logging.middleware';
@@ -29,5 +30,7 @@ router.post("/user", authenticateToken, postUser);
 router.get('/validate-token', authenticateToken, (req, res) => {
     res.json({ message: 'Token is valid' });
   });
+
+router.get("/leaderboard", getLeaderboard);
 
 export default router;

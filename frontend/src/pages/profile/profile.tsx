@@ -46,9 +46,14 @@ const ProfilePage: React.FC = () => {
                 <p>Email: {userData.email}</p>
                 <p>Username: {userData.username}</p>
                 <p>Joined: {userData.createdAt}</p>
+                <p>Games Played: {userData.stats.totalGames}</p>
+                <p>Games Won: {userData.stats.gamesWon}</p>
+                <p>Current Streak: {userData.stats.currentStreak}</p>
+                <p>Longest Streak: {userData.stats.longestStreak}</p>
+                <p>Guess distribution: {userData.stats.guessDist}</p>
+                <p>Average Guesses: {userData.stats.averageGuesses}</p>
             </div>
             )}
-            <LogOut />
         </div>
     );
 }
