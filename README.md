@@ -71,4 +71,8 @@ I've done so many little small things and bug fixes today but now everything act
 -Guess distribution
 -Number of correct guesses
 -Time? not now but in the future
--
+
+Feb 20th, 2025:
+I figured out which ones to display
+Games played, games won, guess distribution, average number of guesses, current streak and longest streak. Then put games won, average number of guesses, and longest streak on a leaderboard because those are probably the most relevant. 
+I have gotten them to be displayed through one window that you can cycle through to show each stat. Shows their rank, their username, and the stat itself. Right now its the top 10 players. I dont know if I should make it longer or shorter yet but we'll see. It's on its own page right now for testing but I want it to be displayed on the side of the game. I think after I put all that into place, I'm going to begin styling everything and make it look presentable and then that will be Version 1.0 of wordleplus. 
