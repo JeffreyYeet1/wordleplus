@@ -82,3 +82,6 @@ I have gotten them to be displayed through one window that you can cycle through
 Actually I need to work on error responses and testing before styling oopsies.
 
 Leaderboard is in the right position and updates properly. Thats it for today.
+
+Feb 23rd, 2025:
+Its been a few days, skiing took the piss outta me but we back. I'm fairly content with what I have right now in terms of functionality so next I want to actually deploy this where people can use it from their own machines. Then I'll do my least favourite thing which is styling.
