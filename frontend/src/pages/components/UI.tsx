@@ -25,8 +25,8 @@ const UI: React.FC = () => {
             {isMenuOpen && (
             <div className="side-menu">
                 <div className="menu-content">
-                <p><a href = '/'>Home</a></p>
-                <p><a href = '/profile'>Profile</a></p>
+                <p><Link to = '/'>Home</Link></p>
+                <p><Link to = '/profile'>Profile</Link></p>
                 </div>
             </div>
             )}
