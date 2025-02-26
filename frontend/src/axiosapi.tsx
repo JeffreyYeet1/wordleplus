@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const AxiosAPI = axios.create({
-  baseURL: process.env.BACKEND_APP_URL, // Use the service name in Docker
+  baseURL: process.env.REACT_APP_BACKEND_URL, // Use the service name in Docker
   headers: {
     'Content-Type': 'application/json',
   },
