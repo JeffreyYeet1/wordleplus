@@ -91,13 +91,17 @@ const LoginPage: React.FC = () => {
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        // Handle Axios errors
         const apiError = error.response?.data as ApiError;
-        console.error('Error:', apiError.error || error.message);
-        setErrors({ submit: apiError.error || error.message });
+        const errorMessage = apiError?.error || error.message || 'An unknown error occurred';
+        console.error('Error:', errorMessage);
+        setErrors({ submit: errorMessage });
       } else if (error instanceof Error) {
+        // Handle generic errors
         console.error('Error:', error.message);
         setErrors({ submit: error.message });
       } else {
+        // Handle unknown errors
         console.error('Unknown error:', error);
         setErrors({ submit: 'An unknown error occurred' });
       }
