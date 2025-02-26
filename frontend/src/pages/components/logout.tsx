@@ -17,7 +17,10 @@ const LogOut: React.FC = () => {
 
             // Notify the user and redirect
             alert("Logout successful");
-            navigate('/login');
+            const Redirect = () => {
+                navigate('/login');
+            };
+            Redirect();
         } catch (error) {
             console.error("Logout unsuccessful", error);
             alert("Logout failed. Please try again.");

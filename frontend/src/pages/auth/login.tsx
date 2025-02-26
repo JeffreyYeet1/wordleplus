@@ -80,7 +80,10 @@ const LoginPage: React.FC = () => {
         console.log('Token stored in localStorage');
         // Redirect to profile
         const navigate = useNavigate();
-        navigate('/profile');
+        const Redirect = () => {
+          navigate('/profile');
+        };
+        Redirect();
       } else {
         console.error('Token not found in response');
       }
