@@ -3,6 +3,7 @@ import axios from 'axios';
 import AxiosAPI from '../../axiosapi';
 import './login.css';
 import UI from '../components/UI';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   email: string;
@@ -78,7 +79,8 @@ const LoginPage: React.FC = () => {
         localStorage.setItem('authToken', token);
         console.log('Token stored in localStorage');
         // Redirect to profile
-        window.location.href = '/profile';
+        const navigate = useNavigate();
+        navigate('/profile');
       } else {
         console.error('Token not found in response');
       }

@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LogOut: React.FC = () => {
     const handleLogout = async () => {
         try {
+            const navigate = useNavigate();
             // Get the token from localStorage
             const token = localStorage.getItem('authToken');
             // Make the logout request with the token for token blacklisting
@@ -15,7 +17,7 @@ const LogOut: React.FC = () => {
 
             // Notify the user and redirect
             alert("Logout successful");
-            window.location.href = '/'; // Redirect to the login page
+            navigate('/login');
         } catch (error) {
             console.error("Logout unsuccessful", error);
             alert("Logout failed. Please try again.");
