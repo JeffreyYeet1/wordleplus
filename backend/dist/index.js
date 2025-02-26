@@ -13,7 +13,7 @@ const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5001;
 // Middleware
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000', // Allow requests from the frontend
+    origin: process.env.FRONTEND_APP_URL || 'http://localhost:3000', // Allow requests from the frontend
     credentials: true, // Allow cookies and headers
 }));
 app.use(express_1.default.json()); // For JSON data
