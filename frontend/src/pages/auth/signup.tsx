@@ -16,6 +16,11 @@ interface ApiError {
 }
 
 const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+  const Redirect = () => {
+    navigate('/profile');
+  };
+
   // Creates form data and error variables
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -84,8 +89,7 @@ const SignUpPage: React.FC = () => {
         localStorage.setItem('authToken', token);
         console.log('Token stored in localStorage');
         // Redirect to profile
-        const navigate = useNavigate();
-        navigate('/profile');
+        Redirect();
       } else {
         console.error('Token not found in response');
       }

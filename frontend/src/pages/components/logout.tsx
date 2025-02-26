@@ -3,9 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const LogOut: React.FC = () => {
+    const navigate = useNavigate();
+    const Redirect = () => {
+        navigate('/login');
+    };
     const handleLogout = async () => {
         try {
-            const navigate = useNavigate();
             // Get the token from localStorage
             const token = localStorage.getItem('authToken');
             // Make the logout request with the token for token blacklisting
@@ -17,9 +20,6 @@ const LogOut: React.FC = () => {
 
             // Notify the user and redirect
             alert("Logout successful");
-            const Redirect = () => {
-                navigate('/login');
-            };
             Redirect();
         } catch (error) {
             console.error("Logout unsuccessful", error);
