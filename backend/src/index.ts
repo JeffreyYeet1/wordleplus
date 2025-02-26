@@ -8,10 +8,18 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL || 'http://localhost:3000';
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_APP_URL || 'http://localhost:3000', // Allow requests from the frontend
+  origin: (origin, callback) => {
+    // Allow requests with or without a trailing slash
+    if (!origin || origin.replace(/\/$/, '') === FRONTEND_APP_URL.replace(/\/$/, '')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Allow cookies and headers
 }));
 app.use(express.json()); // For JSON data

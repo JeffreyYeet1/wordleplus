@@ -11,9 +11,18 @@ const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5001;
+const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL || 'http://localhost:3000';
 // Middleware
 app.use((0, cors_1.default)({
-    origin: process.env.FRONTEND_APP_URL || 'http://localhost:3000', // Allow requests from the frontend
+    origin: (origin, callback) => {
+        // Allow requests with or without a trailing slash
+        if (!origin || origin.replace(/\/$/, '') === FRONTEND_APP_URL.replace(/\/$/, '')) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true, // Allow cookies and headers
 }));
 app.use(express_1.default.json()); // For JSON data
