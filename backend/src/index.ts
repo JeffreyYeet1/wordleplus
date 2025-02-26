@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import cors from 'cors';
+import path from 'path'; // Import the path module
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ app.use(cors({
 }));
 app.use(express.json()); // For JSON data
 app.use(express.urlencoded({ extended: true })); // For form data
+
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, "../../frontend/build")));
 
 // Connect to MongoDB Atlas
 const MONGO_URI = process.env.MONGO_URI;
@@ -56,6 +60,11 @@ app.get('/test', (req: Request, res: Response) => {
 
 // Mount auth routes
 app.use('/api/auth', authRoutes);
+
+// Serve the frontend's index.html for all other routes
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
+});
 
 // Start the server
 app.listen(PORT, () => {
