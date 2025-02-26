@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const AxiosAPI = axios.create({
-  baseURL: 'http://localhost:5001', // Use the service name in Docker
+  baseURL: process.env.FRONTEND_URL || 'http://localhost:5001', // Use the service name in Docker
   headers: {
     'Content-Type': 'application/json',
   },
