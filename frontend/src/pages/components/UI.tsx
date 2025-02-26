@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './ui.css';
 import LogOut from './logout';
+import { Link } from 'react-router-dom';
 
 const UI: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,7 @@ const UI: React.FC = () => {
                     ☰
                 </button>
                 <div className="login-signup-logout">
-                    {localStorage.getItem('authToken') ? <LogOut /> : <><a href="/login">Login</a> | <a href="/signup">Sign Up</a></>}
+                    {localStorage.getItem('authToken') ? <LogOut /> : <><Link to="/login">Login</Link> | <Link to="/signup">Sign Up</Link></>}
                 </div>
             </div>
     
