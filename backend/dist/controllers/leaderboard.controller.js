@@ -17,6 +17,7 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const getLeaderboard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sortBy = req.query.sortBy || 'stats.gamesWon';
+        // List of stats we want to display
         const validStats = [
             'stats.gamesWon',
             'stats.longestStreak',
@@ -26,6 +27,7 @@ const getLeaderboard = (req, res) => __awaiter(void 0, void 0, void 0, function*
             res.status(400).json({ message: 'Invalid sortBy parameter' });
             return;
         }
+        // Sort average guesses in ascending order since lower is better
         const sortOrder = sortBy === 'stats.averageGuesses' ? 1 : -1;
         const leaderboard = yield user_model_1.default.find({
             [sortBy]: { $ne: 0 } // Excludes entries where the stat is 0

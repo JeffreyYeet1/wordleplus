@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 5001;
 const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL;
 // Middleware
 app.use((0, cors_1.default)({
+    // Enable cors for both production and local development
     origin: (origin, callback) => {
         const allowedOrigins = ['http://localhost:3000', FRONTEND_APP_URL];
         if (!origin || allowedOrigins.includes(origin)) {
@@ -33,10 +34,12 @@ if (!MONGO_URI) {
     console.error('MONGO_URI is not defined in the environment variables.');
     process.exit(1);
 }
+// Connect to MongoDB
 mongoose_1.default
     .connect(MONGO_URI)
     .then(() => console.log('Connected to MongoDB Atlas'))
     .catch((err) => console.error('MongoDB connection error:', err));
+// Test connection
 mongoose_1.default.connection.on('error', (err) => {
     console.error('MongoDB connection error:', err);
 });

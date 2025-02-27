@@ -12,6 +12,7 @@ const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL;
 
 // Middleware
 app.use(cors({
+  // Enable cors for both production and local development
   origin: (origin, callback) => {
     const allowedOrigins = ['http://localhost:3000', FRONTEND_APP_URL];
     if (!origin || allowedOrigins.includes(origin)) {
@@ -32,11 +33,13 @@ if (!MONGO_URI) {
   process.exit(1);
 }
 
+// Connect to MongoDB
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
+// Test connection
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
 });
