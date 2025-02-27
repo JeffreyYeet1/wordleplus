@@ -87,3 +87,6 @@ Leaderboard is in the right position and updates properly. Thats it for today.
 
 Feb 23rd, 2025:
 Its been a few days, skiing took the piss outta me but we back. I'm fairly content with what I have right now in terms of functionality so next I want to actually deploy this where people can use it from their own machines. Then I'll do my least favourite thing which is styling.
+
+Feb 27th, 2025:
+So its on Render now, there are still a bug where you reload the page and it redirects to not found. I'm not sure how to fix that yet but it will happen sometime. All the other pages still aren't styled yet but that can happen later, I need to work on my portfolio website now since its pretty barren. Then I'll come back here once thats done.
