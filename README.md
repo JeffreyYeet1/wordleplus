@@ -90,3 +90,6 @@ Its been a few days, skiing took the piss outta me but we back. I'm fairly conte
 
 Feb 27th, 2025:
 So its on Render now, there are still a bug where you reload the page and it redirects to not found. I'm not sure how to fix that yet but it will happen sometime. All the other pages still aren't styled yet but that can happen later, I need to work on my portfolio website now since its pretty barren. Then I'll come back here once thats done.
+
+Feb 28th, 2025:
+God bless the random guy on youtube who had a fix to the problem.
