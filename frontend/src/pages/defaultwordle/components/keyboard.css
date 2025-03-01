@@ -1,15 +1,3 @@
-@font-face {
-    font-family: 'Clear Sans';
-    src: url('../../../fonts/ClearSans-Regular.ttf') format('truetype'); /* Adjust the path if necessary */
-    font-weight: bold;
-    font-style: normal;
-  }
-  
-  body {
-    font-family: 'Clear Sans', sans-serif;
-  }
-  
-
 .keyboardcontainer{
     width:484px;
     height:174px;

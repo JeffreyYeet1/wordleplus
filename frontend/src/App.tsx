@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/homepage/homepage';
@@ -8,7 +7,6 @@ import SignUpPage from './pages/auth/signup';
 import LoginPage from './pages/auth/login';
 import ProfilePage from './pages/profile/profile';
 import ProtectedRoute from './protectedroute';
-import Leaderboard from './pages/components/leaderboard';
 
 function App() {
   return (
