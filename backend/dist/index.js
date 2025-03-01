@@ -8,6 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const cors_1 = __importDefault(require("cors"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5001;
@@ -28,6 +29,7 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json()); // For JSON data
 app.use(express_1.default.urlencoded({ extended: true })); // For form data
+app.use(express_1.default.static(path_1.default.join(__dirname, 'build'))); // Serve static files from the React app
 // Connect to MongoDB Atlas
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
@@ -59,6 +61,10 @@ app.get('/test', (req, res) => {
 });
 // Mount auth routes
 app.use('/api/auth', auth_routes_1.default);
+// Handle React routing, return all requests to React app
+app.get('*', (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, 'build', 'index.html'));
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

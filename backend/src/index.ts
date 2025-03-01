@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import cors from 'cors';
+import path from 'path';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(cors({
 }));
 app.use(express.json()); // For JSON data
 app.use(express.urlencoded({ extended: true })); // For form data
+app.use(express.static(path.join(__dirname, 'build'))); // Serve static files from the React app
 
 // Connect to MongoDB Atlas
 const MONGO_URI = process.env.MONGO_URI;
@@ -63,6 +65,11 @@ app.get('/test', (req: Request, res: Response) => {
 
 // Mount auth routes
 app.use('/api/auth', authRoutes);
+
+// Handle React routing, return all requests to React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 // Start the server
 app.listen(PORT, () => {
