@@ -63,7 +63,8 @@ app.get('/test', (req, res) => {
 app.use('/api/auth', auth_routes_1.default);
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-    res.sendFile(path_1.default.resolve(__dirname, '../../frontend/build', 'index.html'));
+    console.log("Path to index", path_1.default.join(__dirname, '../../frontend/build', 'index.html'));
+    res.sendFile(path_1.default.join(__dirname, '../../frontend/build', 'index.html'));
 });
 // Start the server
 app.listen(PORT, () => {

@@ -68,7 +68,8 @@ app.use('/api/auth', authRoutes);
 
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../../frontend/build', 'index.html'));
+  console.log("Path to index", path.join(__dirname, '../../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
 // Start the server
