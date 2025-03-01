@@ -29,7 +29,7 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json()); // For JSON data
 app.use(express_1.default.urlencoded({ extended: true })); // For form data
-app.use(express_1.default.static(path_1.default.join(__dirname, 'build'))); // Serve static files from the React app
+app.use(express_1.default.static(path_1.default.join(__dirname, '../../frontend/build'))); // Serve static files from the React app
 // Connect to MongoDB Atlas
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
@@ -63,7 +63,7 @@ app.get('/test', (req, res) => {
 app.use('/api/auth', auth_routes_1.default);
 // Handle React routing, return all requests to React app
 app.get('*', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path_1.default.join(__dirname, '../../frontend/build', 'index.html'));
 });
 // Start the server
 app.listen(PORT, () => {
